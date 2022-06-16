@@ -19,4 +19,7 @@ class AuthorController extends Controller
         $authors = $this->authorRepository->getAllAuthors();
         return $authors;
     }
+
+
+
 }

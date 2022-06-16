@@ -60,4 +60,16 @@ class AuthRepository
             ],400);
         }
     }
+
+    public function logout(Request $request){
+
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'User log out successfully'
+        ]);
+    }
+    public function user(Request $request){
+        return $request->user();
+    }
 }
