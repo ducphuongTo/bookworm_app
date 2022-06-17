@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\AuthorController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,4 +22,7 @@ Route::middleware('auth:api')->group(function(){
 });
 
 Route::post('login',[AuthController::class,'login']);
-Route::get('getAuthors',[\App\Http\Controllers\AuthorController::class,'getAllAuthors']);
+Route::post('register',[AuthController::class,'register']);
+Route::get('getAuthors',[AuthorController::class,'getAllAuthors']);
+
+Route::get('getOnSaleBooks', [BookController::class,'getSaleBook']);

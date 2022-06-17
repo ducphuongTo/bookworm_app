@@ -72,4 +72,38 @@ class AuthRepository
     public function user(Request $request){
         return $request->user();
     }
+
+    public function register(Request $request){
+
+        $fields = $request->validate([
+            "first_name" => "required|alpha|max:128",
+            "last_name" => 'required|alpha|max:128',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:6|max:50'
+        ]);
+
+        $user = User::create([
+            'first_name' => $fields['first_name'],
+            'last_name' => $fields['last_name'],
+//            'full_name' => $fields['last_name']  . " " . $fields['first_name'],
+            'email' => $fields['email'],
+            'password' => $fields['password']
+        ]);
+        $response = [
+            [
+                'message'=> "User successfully created"
+            ],
+            [
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+//                'full_name' => $user->full_name,
+                'email' => $user->email,
+                'password' => $user->password,
+                'id'=>$user->id,
+                'created_at'=>$user->created_at,
+                'updated_at'=>$user->updated_at,
+            ]
+        ];
+        return response($response, 201);
+    }
 }
