@@ -11,4 +11,11 @@ class Book extends Model
 
     public $timestamps = false;
     protected $table = 'book';
+
+    function author(){
+        return $this->belongsTo(Author::class);
+    }
+    function review(){
+        return $this-> hasMany(Review::class);
+    }
 }

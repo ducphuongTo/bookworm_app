@@ -19,4 +19,7 @@ class BookController extends Controller
     public function getSaleBook(){
         return $this->bookRepository->getOnSaleBooks();
     }
+    public function getPopularBooks(){
+        return $this->bookRepository->getPopularBooks();
+    }
 }

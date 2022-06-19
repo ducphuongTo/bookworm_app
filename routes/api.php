@@ -26,3 +26,4 @@ Route::post('register',[AuthController::class,'register']);
 Route::get('getAuthors',[AuthorController::class,'getAllAuthors']);
 
 Route::get('getOnSaleBooks', [BookController::class,'getSaleBook']);
+Route::get('getOnPopularBooks',[BookController::class,'getPopularBooks']);

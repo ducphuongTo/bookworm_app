@@ -34,4 +34,23 @@ class BookRepository
             ->limit(10)
             ->get();
     }
+
+    public function getPopularBooks(){
+        return Book::join('author', 'author.id', '=', 'book.author_id')
+            ->select('book.id',
+                'book.book_title',
+                'book.book_price',
+                'book.book_cover_photo',
+                'author.author_name')
+            ->selectRaw('(CASE WHEN EXISTS (select book_id from discount where book.id=book_id)
+                              THEN (select discount_price from discount where book_id=book.id)
+                              ELSE book.book_price END) as final_price')
+            ->join('review', 'review.book_id', '=', 'book.id')
+            ->withCount('review')
+            ->distinct()
+            ->orderBy('review_count', 'desc')
+            ->orderBy('final_price', 'asc')
+            ->limit(8)
+            ->get();
+    }
 }
