@@ -21,7 +21,7 @@ class BookRepository
     }
 
     public function getOnSaleBooks(){
-        return Book::join('discount', 'discount.book_id', '=', 'book.id' )
+        $books =  Book::join('discount', 'discount.book_id', '=', 'book.id' )
             -> join('author', 'author.id', '=', 'book.author_id')
             ->selectRaw('book.id,
             book.book_title,
@@ -33,10 +33,14 @@ class BookRepository
             ->orderBy('sub_price', 'desc')
             ->limit(10)
             ->get();
+        return response()->json([
+          "message" => "Get sale book successfully",
+          "data" => $books
+        ],200);
     }
 
     public function getPopularBooks(){
-        return Book::join('author', 'author.id', '=', 'book.author_id')
+        $books =  Book::join('author', 'author.id', '=', 'book.author_id')
             ->select('book.id',
                 'book.book_title',
                 'book.book_price',
@@ -52,5 +56,9 @@ class BookRepository
             ->orderBy('final_price', 'asc')
             ->limit(8)
             ->get();
+        return response()->json([
+            "message" => "Get popular book successfully",
+            "data" => $books
+        ],200);
     }
 }
