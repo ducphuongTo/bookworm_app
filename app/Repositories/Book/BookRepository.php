@@ -5,6 +5,7 @@ namespace App\Repositories\Book;
 
 //use Your Model
 use App\Models\Book;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class BookRepository.
@@ -60,5 +61,30 @@ class BookRepository
             "message" => "Get popular book successfully",
             "data" => $books
         ],200);
+    }
+
+    public function getBookById($id){
+       $book = Book::join('review','review.book_id', '=','book.id')
+                    ->join('author','author.id','=','book.author_id')
+                    ->join('category','category.id','=','book.category_id')
+                    ->join('discount','discount.book_id','=','book.id')
+                    ->select('book.id',
+                            'book.book_title',
+                            'book.book_summary',
+                            'book.book_price',
+                            'book.book_cover_photo'
+                            ,'author_name',
+                            'category.category_name',
+                            'discount.discount_price')
+                    ->withCount('review')
+                    ->distinct()
+                    ->withAvg('review','rating_start')
+                    ->where('book.id','=',$id)
+                    ->get();
+
+       return response()->json([
+            "message" => "Get book by id: {$id} successfully",
+            "data" => $book
+       ],200);
     }
 }
