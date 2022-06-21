@@ -27,3 +27,6 @@ Route::get('getAuthors',[AuthorController::class,'getAllAuthors']);
 
 Route::get('getOnSaleBooks', [BookController::class,'getSaleBook']);
 Route::get('getOnPopularBooks',[BookController::class,'getPopularBooks']);
+Route::get('book/recommend',[BookController::class,'getRecommendedBooks']);
+Route::get('book/{id}',[BookController::class,'getBookById']);
+Route::get('book/review/{id}',[\App\Http\Controllers\ReviewController::class,'getReviewList']);

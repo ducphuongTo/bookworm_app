@@ -25,4 +25,7 @@ class BookController extends Controller
     public function getBookById($id){
         return $this->bookRepository->getBookById($id);
     }
+    public function getRecommendedBooks(){
+        return $this->bookRepository->getRecommendedBooks();
+    }
 }

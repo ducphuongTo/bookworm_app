@@ -87,4 +87,35 @@ class BookRepository
             "data" => $book
        ],200);
     }
+
+    public function getRecommendedBooks(){
+        $book = Book::join('review','review.book_id','=','book.id')
+            ->join('author','author.id','=','book.author_id')
+            ->select('book.id',
+                'book.book_title',
+                'book.book_summary',
+
+                'book.book_cover_photo',
+                'author.author_name'
+            )
+            ->selectRaw('(
+                CASE
+                WHEN exists(select book_id from discount where book.id = book_id)
+                THEN (select discount_price from discount where book.id = discount.book_id)
+                ELSE
+                    book.book_price
+                END
+            ) as final_price')
+
+            ->withAvg('review','rating_start')
+            ->orderBy('review_avg_rating_start','desc')
+            ->orderBy('final_price','asc')
+            ->distinct()
+            ->limit(8)
+            ->get();
+        return response()->json([
+            "message" => "Get recommend book successfully",
+            "data" => $book
+        ],200);
+    }
 }
