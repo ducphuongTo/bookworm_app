@@ -17,7 +17,7 @@ use App\Http\Controllers\ReviewController;
 |
 */
 
-Route::middleware('auth:api')->group(function(){
+Route::middleware('auth:sanctum')->group(function(){
     Route::post("users/logout", [AuthController::class, "logoutUser"]);
     Route::get("users/profile",[AuthController::class,'me']);
 });
@@ -30,9 +30,9 @@ Route::prefix('books')->group(function () {
     Route::get('/popular',[BookController::class,'getPopularBooks']);
     Route::get('/recommend',[BookController::class,'getRecommendedBooks']);
     Route::get('/{id}',[BookController::class,'getBookById']);
-    Route::get('/condition',[BookController::class,'getByCondition']);
-});
 
+});
+Route::get('book/condition',[BookController::class,'getByCondition']);
 
 //Cart
 

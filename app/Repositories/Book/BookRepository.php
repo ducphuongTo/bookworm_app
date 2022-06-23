@@ -27,8 +27,6 @@ class BookRepository
     //get on sale books
     public function getOnSaleBooks(){
         $booksOnSale = Book::OnSale()
-                    ->orderBy('sub_price', 'asc')
-                    ->limit(10)
                     ->get();
         return response()->json([
             "message" => "Get sale books successfully",
@@ -105,23 +103,14 @@ class BookRepository
     }
 
 
-
     public function getByCondition(Request $request){
-        $book = Book::select("book.*")
-                ->join('category','category.id','=','book.category_id')
-                ->join('author','author.id','=','book.author_id')
-                ->join('review','review.book_id','=','book.id')
-                ->withAvg('review','rating_start')
-                ->with('author')
-                ->with('category')
-//                ->with('review')
-//                ->with('discount')
-                ->sort($request)
-                ->filter($request)
-                ->get();
+       $books = Book::FeaturedBooks()
+           ->sort($request)
+           ->get();
+
         return response()->json([
             "message" => "Get  book successfully",
-            "data" => $book
+            "data" => $books
         ],200);
     }
 }

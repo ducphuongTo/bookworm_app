@@ -26,6 +26,7 @@ class Book extends Model
         return $this->hasOne(Discount::class);
     }
 
+
     public function scopeOnSale(){
         return Book::join('discount', 'discount.book_id', '=', 'book.id' )
             ->join('category', 'book.category_id', '=', 'category.id')
@@ -37,7 +38,9 @@ class Book extends Model
             author.author_name,
             discount.discount_price,
             category.category_name,
-            book.book_price - discount.discount_price as sub_price');
+            book.book_price - discount.discount_price as sub_price')
+            ->orderBy('sub_price', 'desc')
+            ->limit(10);
     }
 
     public function scopePopular(){
@@ -82,6 +85,25 @@ class Book extends Model
     }
 
 
+    public function scopeFeaturedBooks(){
+        return Book::join('category', 'book.category_id', '=', 'category.id')
+            ->join('discount', 'discount.book_id', '=', 'book.id' )
+            ->join('author', 'author.id', '=', 'book.author_id')
+//            ->join('review', 'review.book_id', '=', 'book.id')
+            ->select('book.*',
+                'category.category_name',
+                'author.author_name',
+                'discount.discount_price',
+                )
+            ->selectRaw('(CASE WHEN discount.discount_price is null
+                        THEN book.book_price
+                        ELSE discount.discount_price END)
+                        AS final_price,
+                         book.book_price - discount.discount_price as sub_price
+                        ');
+
+    }
+
     public function scopeSort($query, $request)
     {
         if ($request->has("sort")) {
@@ -90,38 +112,17 @@ class Book extends Model
                 $sortValue = $value;
             }
 
-            if ($sortBy == "discount_price") {
-                $query->join(
-                    "discount",
-                    "discount.book_id",
-                    "=",
-                    "book.id"
-                );
+            if ($sortBy == "sub_price") {
+                $query->selectRaw('book.book_price - discount.discount_price as sub_price');
                 $query->orderBy($sortBy, $sortValue);
-            }
-
-            if($sortBy == "review_count"){
-                $query->join(
-                    'review',
-                    'review.book_id',
-                    '=',
-                    'book.id'
-                )
-                    ->withCount('review')
-                    ->distinct();
-                $query->orderBy($sortBy,$sortValue);
             }
             if($sortBy == "final_price")
             {
-                $query->selectRaw('(
-                    CASE
-                    WHEN exists(select book_id from discount where book.id = book_id)
-                    THEN (select discount_price from discount where book.id = discount.book_id)
-                    ELSE
-                        book.book_price
-                    END
-                ) as final_price');
-                $query->orderBy($sortBy,$sortValue);
+                $query->orderBy($sortBy, $sortValue);
+            }
+            if($sortBy == "review_count")
+            {
+                $query->orderBy($sortBy, $sortValue);
             }
         }
         return $query;
