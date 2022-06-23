@@ -28,4 +28,8 @@ class BookController extends Controller
     public function getRecommendedBooks(){
         return $this->bookRepository->getRecommendedBooks();
     }
+
+    public function getByCondition(Request $request){
+        return $this->bookRepository->getByCondition($request);
+}
 }

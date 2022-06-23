@@ -5,6 +5,7 @@ namespace App\Repositories\Book;
 
 //use Your Model
 use App\Models\Book;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -16,53 +17,68 @@ class BookRepository
      * @return string
      *  Return the model
      */
+
+
     public function model()
     {
         //return YourModel::class;
     }
 
+    //get on sale books
     public function getOnSaleBooks(){
-        $books =  Book::join('discount', 'discount.book_id', '=', 'book.id' )
-            -> join('author', 'author.id', '=', 'book.author_id')
-            ->selectRaw('book.id,
-            book.book_title,
-            book.book_price,
-            book.book_cover_photo,
-            author.author_name,
-            discount.discount_price,
-            book.book_price - discount.discount_price as sub_price')
-            ->orderBy('sub_price', 'desc')
-            ->limit(10)
-            ->get();
+        $booksOnSale = Book::OnSale()
+                    ->orderBy('sub_price', 'asc')
+                    ->limit(10)
+                    ->get();
         return response()->json([
-          "message" => "Get sale book successfully",
-          "data" => $books
+            "message" => "Get sale books successfully",
+            "data" => $booksOnSale
         ],200);
     }
 
+    //get Popular books
     public function getPopularBooks(){
-        $books =  Book::join('author', 'author.id', '=', 'book.author_id')
-            ->select('book.id',
-                'book.book_title',
-                'book.book_price',
-                'book.book_cover_photo',
-                'author.author_name')
-            ->selectRaw('(CASE WHEN EXISTS (select book_id from discount where book.id=book_id)
-                              THEN (select discount_price from discount where book_id=book.id)
-                              ELSE book.book_price END) as final_price')
-            ->join('review', 'review.book_id', '=', 'book.id')
-            ->withCount('review')
-            ->distinct()
+        $popularBooks = Book::Popular()
             ->orderBy('review_count', 'desc')
             ->orderBy('final_price', 'asc')
             ->limit(8)
             ->get();
         return response()->json([
             "message" => "Get popular book successfully",
-            "data" => $books
+            "data" => $popularBooks
+        ],200);
+
+//        $featuredBooks = DB::table('book')
+//            ->join('review', 'book.id', '=', 'review.book_id')
+//            ->join('category', 'book.category_id', '=', 'category.id')
+//            ->join('author', 'book.author_id', '=', 'author.id')
+//            ->leftJoin('discount', 'book.id', '=', 'discount.book_id')
+//            ->select('review.book_id', 'category.category_name', 'author.author_name', 'discount.discount_price', 'book.book_title', 'book.book_cover_photo', 'book.book_price')
+//            ->selectRaw('(CASE WHEN discount.discount_price is null THEN book.book_price ELSE discount.discount_price END) AS final_price')
+//            ->groupBy('review.book_id', 'author.author_name', 'discount.discount_price', 'book.book_title', 'book.book_price', 'book.book_cover_photo', 'category.category_name')
+//            ->selectRaw('count(review.book_id) as total_review')
+//            ->orderByDesc('total_review')
+//            ->orderBy('final_price')
+//            ->take(8)
+//            ->get();
+
+
+    }
+    // recommend books
+    public function getRecommendedBooks(){
+       $recommendBooks = Book::Recommend()
+            ->orderBy('review_avg_rating_start','desc')
+            ->orderBy('final_price','asc')
+            ->distinct()
+            ->limit(8)
+            ->get();
+        return response()->json([
+            "message" => "Get recommend book successfully",
+            "data" => $recommendBooks
         ],200);
     }
 
+    // get book by id
     public function getBookById($id){
        $book = Book::join('review','review.book_id', '=','book.id')
                     ->join('author','author.id','=','book.author_id')
@@ -88,33 +104,23 @@ class BookRepository
        ],200);
     }
 
-    public function getRecommendedBooks(){
-        $book = Book::join('review','review.book_id','=','book.id')
-            ->join('author','author.id','=','book.author_id')
-            ->select('book.id',
-                'book.book_title',
-                'book.book_summary',
 
-                'book.book_cover_photo',
-                'author.author_name'
-            )
-            ->selectRaw('(
-                CASE
-                WHEN exists(select book_id from discount where book.id = book_id)
-                THEN (select discount_price from discount where book.id = discount.book_id)
-                ELSE
-                    book.book_price
-                END
-            ) as final_price')
 
-            ->withAvg('review','rating_start')
-            ->orderBy('review_avg_rating_start','desc')
-            ->orderBy('final_price','asc')
-            ->distinct()
-            ->limit(8)
-            ->get();
+    public function getByCondition(Request $request){
+        $book = Book::select("book.*")
+                ->join('category','category.id','=','book.category_id')
+                ->join('author','author.id','=','book.author_id')
+                ->join('review','review.book_id','=','book.id')
+                ->withAvg('review','rating_start')
+                ->with('author')
+                ->with('category')
+//                ->with('review')
+//                ->with('discount')
+                ->sort($request)
+                ->filter($request)
+                ->get();
         return response()->json([
-            "message" => "Get recommend book successfully",
+            "message" => "Get  book successfully",
             "data" => $book
         ],200);
     }

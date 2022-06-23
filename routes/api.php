@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\ReviewController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,11 +23,22 @@ Route::middleware('auth:api')->group(function(){
 });
 
 Route::post('login',[AuthController::class,'login']);
-Route::post('register',[AuthController::class,'register']);
-Route::get('getAuthors',[AuthorController::class,'getAllAuthors']);
 
-Route::get('getOnSaleBooks', [BookController::class,'getSaleBook']);
-Route::get('getOnPopularBooks',[BookController::class,'getPopularBooks']);
-Route::get('book/recommend',[BookController::class,'getRecommendedBooks']);
-Route::get('book/{id}',[BookController::class,'getBookById']);
-Route::get('book/review/{id}',[\App\Http\Controllers\ReviewController::class,'getReviewList']);
+//Books
+Route::prefix('books')->group(function () {
+    Route::get('/sale', [BookController::class,'getSaleBook']);
+    Route::get('/popular',[BookController::class,'getPopularBooks']);
+    Route::get('/recommend',[BookController::class,'getRecommendedBooks']);
+    Route::get('/{id}',[BookController::class,'getBookById']);
+    Route::get('/condition',[BookController::class,'getByCondition']);
+});
+
+
+//Cart
+
+
+Route::get('book/review/{id}',[ReviewController::class,'getReviewList']);
+
+
+
+Route::get('getAuthors',[AuthorController::class,'getAllAuthors']);
