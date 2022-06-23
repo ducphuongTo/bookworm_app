@@ -26,6 +26,7 @@ Route::post('login',[AuthController::class,'login']);
 
 //Books
 Route::prefix('books')->group(function () {
+    Route::get('/allSale',[BookController::class,'index']);
     Route::get('/sale', [BookController::class,'getSaleBook']);
     Route::get('/popular',[BookController::class,'getPopularBooks']);
     Route::get('/recommend',[BookController::class,'getRecommendedBooks']);

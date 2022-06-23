@@ -39,8 +39,7 @@ class Book extends Model
             discount.discount_price,
             category.category_name,
             book.book_price - discount.discount_price as sub_price')
-            ->orderBy('sub_price', 'desc')
-            ->limit(10);
+            ->orderBy('sub_price', 'desc');
     }
 
     public function scopePopular(){

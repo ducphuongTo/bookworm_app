@@ -24,9 +24,20 @@ class BookRepository
         //return YourModel::class;
     }
 
+
+    public function getAll(){
+        $booksOnSale = Book::OnSale()
+
+            ->get();
+        return response()->json([
+            "message" => "Get sale books successfully",
+            "data" => $booksOnSale
+        ],200);
+    }
     //get on sale books
     public function getOnSaleBooks(){
         $booksOnSale = Book::OnSale()
+                    ->limit(10)
                     ->get();
         return response()->json([
             "message" => "Get sale books successfully",

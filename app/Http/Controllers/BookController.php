@@ -13,8 +13,14 @@ class BookController extends Controller
         $this->bookRepository = $bookRepository;
     }
 
-    public function getAllBook(Request $request){
-
+    public function index()
+    {
+        $books = $this->bookRepository->getAll();
+        return response()->json([
+            'success' => true,
+            'message' => 'Book List',
+            'data'    => $books
+        ]);
     }
     public function getSaleBook(){
         return $this->bookRepository->getOnSaleBooks();
