@@ -39,10 +39,10 @@ Route::get('book/condition',[BookController::class,'getByCondition']);
 Route::get('book/review/{id}',[ReviewController::class,'getReviewList']);
 
 //review
-
 Route::prefix('review')->group(function (){
 
 });
 
 
+//Authors
 Route::get('getAuthors',[AuthorController::class,'getAllAuthors']);

@@ -50,6 +50,7 @@ class Book extends Model
             ->select('book.id',
                 'book.book_title',
                 'book.book_price',
+                'discount.discount_price',
                 'book.book_cover_photo',
                 'category.category_name',
                 'author.author_name')
@@ -65,21 +66,20 @@ class Book extends Model
         return Book::join('review','review.book_id','=','book.id')
             ->join('author','author.id','=','book.author_id')
             ->join('category', 'book.category_id', '=', 'category.id')
+            ->leftJoin('discount', 'book.id', '=', 'discount.book_id')
             ->select('book.id',
                 'book.book_title',
+                'book.book_price',
+                'discount.discount_price',
                 'book.book_summary',
                 'book.book_cover_photo',
                 'author.author_name',
                 'category.category_name'
             )
-            ->selectRaw('(
-                CASE
-                WHEN exists(select book_id from discount where book.id = book_id)
-                THEN (select discount_price from discount where book.id = discount.book_id)
-                ELSE
-                    book.book_price
-                END
-            ) as final_price')
+            ->selectRaw('(CASE WHEN discount.discount_price is null
+                        THEN book.book_price
+                        ELSE discount.discount_price END)
+                        AS final_price')
             ->withAvg('review','rating_start');
     }
 

@@ -56,22 +56,6 @@ class BookRepository
             "message" => "Get popular book successfully",
             "data" => $popularBooks
         ],200);
-
-//        $featuredBooks = DB::table('book')
-//            ->join('review', 'book.id', '=', 'review.book_id')
-//            ->join('category', 'book.category_id', '=', 'category.id')
-//            ->join('author', 'book.author_id', '=', 'author.id')
-//            ->leftJoin('discount', 'book.id', '=', 'discount.book_id')
-//            ->select('review.book_id', 'category.category_name', 'author.author_name', 'discount.discount_price', 'book.book_title', 'book.book_cover_photo', 'book.book_price')
-//            ->selectRaw('(CASE WHEN discount.discount_price is null THEN book.book_price ELSE discount.discount_price END) AS final_price')
-//            ->groupBy('review.book_id', 'author.author_name', 'discount.discount_price', 'book.book_title', 'book.book_price', 'book.book_cover_photo', 'category.category_name')
-//            ->selectRaw('count(review.book_id) as total_review')
-//            ->orderByDesc('total_review')
-//            ->orderBy('final_price')
-//            ->take(8)
-//            ->get();
-
-
     }
     // recommend books
     public function getRecommendedBooks(){
@@ -117,7 +101,7 @@ class BookRepository
     public function getByCondition(Request $request){
         $size = $request->query("paginate");
        $books = Book::FeaturedBooks()
-//           ->sort($request)
+           ->sort($request)
            ->filter($request)
            ->paginate($size);
         return response()->json([
