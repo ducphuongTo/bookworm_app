@@ -22,6 +22,9 @@ class AuthorRepository
     }
 
     public function getAllAuthors(){
-        return Author::all();
+        return Author::query()
+            ->select('author_name')
+            ->orderBy('author_name')
+            ->get();
     }
 }

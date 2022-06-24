@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -43,6 +44,12 @@ Route::prefix('review')->group(function (){
 
 });
 
-
 //Authors
-Route::get('getAuthors',[AuthorController::class,'getAllAuthors']);
+Route::prefix('authors')->group(function(){
+    Route::get('/shopPage',[AuthorController::class,'getAllAuthors']);
+});
+
+//Category
+Route::prefix('categories')->group(function (){
+    Route::get('/shopPage',[CategoryController::class,'getAllCategories']);
+});
