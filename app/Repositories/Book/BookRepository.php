@@ -115,10 +115,11 @@ class BookRepository
 
 
     public function getByCondition(Request $request){
+        $size = $request->query("paginate");
        $books = Book::FeaturedBooks()
-           ->sort($request)
-           ->get();
-
+//           ->sort($request)
+           ->filter($request)
+           ->paginate($size);
         return response()->json([
             "message" => "Get  book successfully",
             "data" => $books
