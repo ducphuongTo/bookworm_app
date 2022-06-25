@@ -36,12 +36,12 @@ Route::prefix('books')->group(function () {
 });
 Route::get('book/condition',[BookController::class,'getByCondition']);
 
-//Cart
-Route::get('book/review/{id}',[ReviewController::class,'getReviewList']);
+
+
 
 //review
 Route::prefix('review')->group(function (){
-
+    Route::get('/{id}',[ReviewController::class,'getReviewList']);
 });
 
 //Authors
