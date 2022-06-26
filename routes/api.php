@@ -42,6 +42,8 @@ Route::prefix('review')->group(function (){
     Route::post('/book',[ReviewController::class,'store']);
     Route::get('/total/{id}',[ReviewController::class,'reviewTotal']);
     Route::get('/countStart/{id}', [ReviewController::class, 'countStart']);
+    Route::get('/avgStart/{id}', [ReviewController::class, 'avgStart']);
+    Route::get('/sort/{id}',[ReviewController::class,'getReviewByCondition']);
 });
 
 //Authors

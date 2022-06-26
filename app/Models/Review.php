@@ -22,4 +22,20 @@ class Review extends Model
     {
         return Carbon::parse($this->attributes['review_date'])->format('F j, Y');
     }
+
+
+    public function scopeSort($query, $request)
+    {
+        if ($request->has("sort")) {
+            foreach ($request->query("sort") as $key => $value) {
+                $sortBy = $key;
+                $sortValue = $value;
+            }
+            if ($sortBy == "review_date") {
+                $query->orderBy($sortBy, $sortValue);
+            }
+
+        }
+        return $query;
+    }
 }

@@ -53,6 +53,14 @@ class ReviewController extends Controller
         return $this->reviewRepository->countStart($bookId);
     }
 
+    public function avgStart($bookId){
+        return $this->reviewRepository->getAvgStar($bookId);
+    }
+    public function getReviewByCondition(Request $request,$bookId)
+    {
+        return $this->reviewRepository->getReivewByCondition($request,$bookId);
+    }
+
 
 
 
