@@ -62,6 +62,9 @@ class ReviewController extends Controller
     }
 
 
+    public function ratingReview(){
+        return $this->reviewRepository->ratingReview();
+    }
 
 
 

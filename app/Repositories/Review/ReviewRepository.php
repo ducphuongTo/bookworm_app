@@ -4,6 +4,7 @@ namespace App\Repositories\Review;
 
 
 //use Your Model
+use App\Models\Author;
 use App\Models\Book;
 use App\Models\Review;
 use Carbon\Carbon;
@@ -72,14 +73,19 @@ class ReviewRepository
 //           ->orderByAsc('final_price')
             ->sort($request)
             ->paginate($size);
-
-
-
 //            ->paginate($size);
         return response()->json([
             "message" => "Get  book successfully",
             "data" => $books
         ],200);
 
+    }
+
+    public function ratingReview(){
+        return Review::query()
+            ->selectRaw('rating_start')
+            ->groupBy('rating_start')
+            ->orderBy('rating_start','asc')
+            ->get();
     }
 }

@@ -44,11 +44,13 @@ Route::prefix('review')->group(function (){
     Route::get('/countStart/{id}', [ReviewController::class, 'countStart']);
     Route::get('/avgStart/{id}', [ReviewController::class, 'avgStart']);
     Route::get('/sort/{id}',[ReviewController::class,'getReviewByCondition']);
-});
 
+});
+Route::get('rating-start/shopPage',[ReviewController::class,'ratingReview']);
 //Authors
 Route::prefix('authors')->group(function(){
     Route::get('/shopPage',[AuthorController::class,'getAllAuthors']);
+
 });
 
 //Category
