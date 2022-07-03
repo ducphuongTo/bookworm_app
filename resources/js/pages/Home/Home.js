@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React from 'react'
 import Feature from '../../Components/base/Home/Feature'
 import OnSale from '../../Components/base/Home/OnSale'
 
