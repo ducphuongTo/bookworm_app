@@ -1,0 +1,30 @@
+.book-detail{
+          flex-direction: inherit;
+          border: 1px solid #cccccc;
+}
+.book-price{
+          flex-direction: column;
+}
+.book-review{
+          margin-top: 5%;
+}
+.review-form{
+          border: 1px solid;
+          border-radius: 5px ;
+}
+.card-author{
+          margin-top: 20px;
+          padding-left: 15px;
+}
+.card_price{
+          font-size: 25px;
+}
+.book-header{
+          padding: 15px;
+}
+.btn_sort{
+          margin-left: 200px;
+}
+.btn_page{
+          margin-right: 40px;
+}
