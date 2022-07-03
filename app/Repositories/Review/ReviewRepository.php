@@ -26,7 +26,14 @@ class ReviewRepository
     }
 
     public function getReview($id){
-        return Review::all()->where('book_id', '=', $id);
+        // $reviews = DB::table('review')
+        // ->where('book_id',$id)
+        // ->select('review.rating_start')
+        // ->groupBy('rating_start')
+        // ->get();
+        // return $reviews;
+        $reviews = Review::where('book_id',$id)->get();
+        return $reviews;
     }
 
     public function create($request){
@@ -52,7 +59,7 @@ class ReviewRepository
     {
         return Review::query()
             ->where('book_id', $bookId)
-            ->select('rating_start as star', DB::raw('count(review.book_id) as count'))
+            ->select('rating_start', DB::raw('count(review.book_id) as count'))
             ->groupBy('rating_start')
             ->get();
     }
