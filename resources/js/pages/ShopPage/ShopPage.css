@@ -1,0 +1,45 @@
+hr{
+          margin-top: 3%;
+          border-width: 1px;
+          width: 100%;
+}
+.bookShow{
+         margin-top: 1%;
+         margin-left: 2%;
+          text-align: center;
+          font-size: large;
+}
+/* .btn{
+          color: #6495ED;
+          font-size: medium;
+} */
+.container{
+          margin-top: 3%;
+}
+
+.category{
+          border-radius: 7%;
+          
+}
+
+.category ul{
+          list-style-type: none;
+}
+.category li {
+          padding-left: 15%;
+}
+.btn-accordion{
+          font-size: 15px;
+          letter-spacing: 1.42px;
+          position: relative;
+          color: #813AFE;
+          font-weight: bold;
+}
+
+.accordion-item{
+          margin-bottom: 8%;
+}
+.card-author{
+          font-weight: bold;
+          font-size: large;
+}
