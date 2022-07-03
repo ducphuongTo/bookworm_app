@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
 Route::post('login',[AuthController::class,'login']);
 
-//Books
+
 Route::prefix('books')->group(function () {
     Route::get('/allSale',[BookController::class,'index']);
     Route::get('/sale', [BookController::class,'getSaleBook']);
@@ -34,9 +34,10 @@ Route::prefix('books')->group(function () {
     Route::get('/{id}',[BookController::class,'getBookById']);
 
 });
+
 Route::get('book/condition',[BookController::class,'getByCondition']);
 
-//review
+
 Route::prefix('review')->group(function (){
     Route::get('/{id}',[ReviewController::class,'getReviewList']);
     Route::post('/book',[ReviewController::class,'store']);
@@ -46,14 +47,16 @@ Route::prefix('review')->group(function (){
     Route::get('/sort/{id}',[ReviewController::class,'getReviewByCondition']);
 
 });
+
+
 Route::get('rating-start/shopPage',[ReviewController::class,'ratingReview']);
-//Authors
+
+
 Route::prefix('authors')->group(function(){
     Route::get('/shopPage',[AuthorController::class,'getAllAuthors']);
 
 });
 
-//Category
 Route::prefix('categories')->group(function (){
     Route::get('/shopPage',[CategoryController::class,'getAllCategories']);
 });

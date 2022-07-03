@@ -72,30 +72,57 @@ class BookRepository
     }
 
     // get book by id
-    public function getBookById($id){
-       $book = Book::join('review','review.book_id', '=','book.id')
-                    ->join('author','author.id','=','book.author_id')
-                    ->join('category','category.id','=','book.category_id')
-                    ->join('discount','discount.book_id','=','book.id')
-                    ->select('book.id',
-                            'book.book_title',
-                            'book.book_summary',
-                            'book.book_price',
-                            'book.book_cover_photo'
-                            ,'author_name',
-                            'category.category_name',
-                            'discount.discount_price')
-                    ->withCount('review')
-                    ->distinct()
-                    ->withAvg('review','rating_start')
-                    ->where('book.id','=',$id)
-                    ->get();
+    // public function getBookById($id){
+    //    $book = Book::join('review','review.book_id', '=','book.id')
+    //                 ->with('author')
+    //                 ->with('category')
+    //                 ->with('discount')
+    //                 ->select('book.id',
+    //                         'book.book_title',
+    //                         'book.book_summary',
+    //                         'book.book_price',
+    //                         'book.book_cover_photo',
+    //                         'author.author_name',
+    //                         'category.category_name',
+    //                         'discount.discount_price')
+    //                 ->withCount('review')
+    //                 ->distinct()
+    //                 ->withAvg('review','rating_start')
+    //                 ->where('book.id','=',$id)
+    //                 ->get();
 
+    //    return response()->json([
+    //         "message" => "Get book by id: {$id} successfully",
+    //         "data" => $book
+    //    ],200);
+    // }
+
+    public function getBookById($id){
+       $book = DB::table('book')
+       ->join('category','book.category_id','=','category.id')
+       ->leftJoin('discount','book.id','=','discount.book_id')
+       ->join('author','book.author_id','=','author.id')
+       ->where('book.id','=',$id)
+       ->select('book.id',
+                'book.book_price',
+                'book.book_title',
+                'book.book_cover_photo',
+                'book.book_summary',
+                'author.author_name',
+                'discount.discount_price',
+                'category.category_name')
+        ->selectRaw('(CASE WHEN discount.discount_price is null
+                    THEN book.book_price
+                    ELSE discount.discount_price END) as final_price')
+        ->get();
        return response()->json([
             "message" => "Get book by id: {$id} successfully",
             "data" => $book
        ],200);
     }
+    
+    
+    
 
 
     public function getByCondition(Request $request){
@@ -109,4 +136,6 @@ class BookRepository
             "data" => $books
         ],200);
     }
+
+
 }

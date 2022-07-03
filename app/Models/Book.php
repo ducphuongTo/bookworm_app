@@ -88,7 +88,7 @@ class Book extends Model
         return Book::join('category', 'book.category_id', '=', 'category.id')
             ->join('discount', 'discount.book_id', '=', 'book.id' )
             ->join('author', 'author.id', '=', 'book.author_id')
-//            ->join('review', 'review.book_id', '=', 'book.id')
+        //    ->join('review', 'review.book_id', '=', 'book.id')
             ->select('book.*',
                 'category.category_name',
                 'author.author_name',
@@ -100,7 +100,7 @@ class Book extends Model
                         AS final_price,
                          book.book_price - discount.discount_price as sub_price
                         ');
-
+            
     }
 
     public function scopeSort($query, $request)
@@ -110,19 +110,17 @@ class Book extends Model
                 $sortBy = $key;
                 $sortValue = $value;
             }
-
             if ($sortBy == "sub_price") {
-                $query->selectRaw('book.book_price - discount.discount_price as sub_price');
+
                 $query->orderBy($sortBy, $sortValue);
             }
-            if($sortBy == "final_price")
-            {
+
+            if ($sortBy == "final_price") {
                 $query->orderBy($sortBy, $sortValue);
             }
-            if($sortBy == "review_count")
-            {
-                $query->orderBy($sortBy, $sortValue);
-            }
+
+
+
         }
         return $query;
     }
