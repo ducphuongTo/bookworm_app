@@ -1,0 +1,18 @@
+.feature_books{
+          margin-top: 3%;
+}
+
+.card-slider{
+          height: 180px;
+}
+.card-author{
+          font-weight: bold;
+          font-size: large;
+          padding-left: 0%;
+}
+.col{
+          margin-bottom: 20px;
+}
+.card-body{
+          height: 180px;
+}
