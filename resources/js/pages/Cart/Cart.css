@@ -1,0 +1,7 @@
+.table-bordered td, .table-bordered th{
+          border: none;
+}
+.btn-order{
+          width: 80%;
+          background-color: #377bc2;
+}
