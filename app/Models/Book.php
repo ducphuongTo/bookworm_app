@@ -93,6 +93,7 @@ class Book extends Model
                 'category.category_name',
                 'author.author_name',
                 'discount.discount_price',
+               
                 )
             ->selectRaw('(CASE WHEN discount.discount_price is null
                         THEN book.book_price
