@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import "./Login.css"
 import {MdClose} from 'react-icons/md'
 
-export const Login = ({showLogin,setShowLogin}) => {
+export const Login = () => {
   return (
     <>
-      {showLogin ? (
+      
 
-            <ModalWrapper showLogin={showLogin}>
+            <ModalWrapper >
                   <div>
               <Container className='mt-5'>
                   <Row>
@@ -19,9 +19,7 @@ export const Login = ({showLogin,setShowLogin}) => {
                           <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
                             <Form.Control type="email" placeholder="Enter email" />
-                          
                           </Form.Group>
-
                           <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Password</Form.Label>
                             <Form.Control type="password" placeholder="Password" />
@@ -32,18 +30,13 @@ export const Login = ({showLogin,setShowLogin}) => {
                           </Button>
                       </Form>
                     </Col>
-
                     <Col lg={8} md = {6} sm={12}>
-                      
                     </Col>
                   </Row>
               </Container>
-
           </div>
-            <CloseModalButton aria-label='Close modal' onClick={()=>setShowLogin(prev=>!prev)}/>
             </ModalWrapper>
 
-      ):null}
     </>
   )
 }

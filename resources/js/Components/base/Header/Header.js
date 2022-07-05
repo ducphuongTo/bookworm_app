@@ -2,14 +2,11 @@ import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import "./header.css"
+import Popup from "reactjs-popup";
+import { Login } from "../Login/Login";
 
 function Header() {
-    const [showLogin, setShowLogin] = useState(false);
-
-    const openModal = () => {
-        setShowLogin((prev) => !prev);
-    };
-
+    
     return (
         <Nav>
             <NavLink to="/">
@@ -48,12 +45,12 @@ function Header() {
                 >
                     Cart(0)
                 </NavLink>
-                <NavLink
-                    to="/login"
-                    style={{ textDecoration: "none", color: "white" }}
-                >
-                    Log in
-                </NavLink>
+               
+                   
+                <Popup modal trigger={<button className="btn-login">Log in</button>}>
+                    {close => <Login close={close}/>}
+                </Popup>
+                
             </NavMenu>
         </Nav>
     );

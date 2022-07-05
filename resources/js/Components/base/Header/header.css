@@ -4,5 +4,11 @@ color: white;
 }
 .link-active {
 color: black;
-background: #813AFE;
+background: #377bc2;
+border-radius: 5px;
+}
+.btn-login{
+          background-color: #377bc2;
+          border-radius: 5px;
+          color: white;
 }
