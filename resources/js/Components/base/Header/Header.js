@@ -4,8 +4,26 @@ import styled from "styled-components";
 import "./header.css"
 import Popup from "reactjs-popup";
 import { Login } from "../Login/Login";
+import axios from "axios";
 
 function Header() {
+
+
+    const logoutSubmit = (e)=>{
+        e.preventDefault()
+
+        axios.post("http://127.0.0.1:8000/api/users/logout")
+        .then(res=>{
+            if(res.data.status === 200)
+            {
+                localStorage.removeItem('auth_token')
+                localStorage.removeItem('auth_data') 
+                swal("Success",res.data.message,"success")
+                localStorage.clear()
+            }
+            
+        })
+    }
     
     return (
         <Nav>
@@ -44,13 +62,12 @@ function Header() {
                       (isActive ? "link-active" : "link")}
                 >
                     Cart(0)
-                </NavLink>
-               
-                   
+                </NavLink> 
+            
                 <Popup modal trigger={<button className="btn-login">Log in</button>}>
                     {close => <Login close={close}/>}
-                </Popup>
-                
+                 </Popup>
+                 <button className="nav-link btn btn-danger btn-sm" onClick={logoutSubmit} type="button">Logout</button>
             </NavMenu>
         </Nav>
     );
