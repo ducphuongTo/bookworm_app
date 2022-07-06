@@ -32,32 +32,29 @@ class AuthRepository
 
         if($validator->fails()){
             return response()->json([
-                'message'=> 'Validation fails'
+                'validation_errors'=> $validator->messages()
             ]);
         }
-        $user = User::where('email',$request->email)->first();
-        if($user){
-            if(Hash::check($request->password,$user->password))
+        else{
+            $user = User::where('email',$request->email)->first();
+           
+            if(!$user || !Hash::check($request->password,$user->password))
             {
-                $token = $user->createToken('DuAnRookieBookWormApp')->plainTextToken;
                 return response()->json([
-                    'message'=>'Login successfully',
-                    'token'=>$token,
-                    'data'=>$user
-                ],200);
+                    'status'=> 401,
+                    'message'=>'Invalid credentials'
+                ],401);
             }
             else{
+
+                $token = $user->createToken('DuAnRookieBookWormApp')->plainTextToken;
                 return response()->json([
-                    'message'=>'Wrong password'
-
-                ],400);
-            }
-        }
-        else{
-            return response()->json([
-                'message'=>'User name dose not exist.'
-
-            ],400);
+                    'status'=> 200,
+                    'message'=>'Logged in successfully',
+                    'token'=>$token,
+                    'data'=>$user
+                ],200); 
+            }   
         }
     }
 
@@ -66,6 +63,7 @@ class AuthRepository
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
+            'status' => 200,
             'message' => 'User log out successfully'
         ]);
     }
@@ -78,16 +76,16 @@ class AuthRepository
         $fields = $request->validate([
             "first_name" => "required|alpha|max:128",
             "last_name" => 'required|alpha|max:128',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:user',
             'password' => 'required|string|min:6|max:50'
         ]);
 
         $user = User::create([
             'first_name' => $fields['first_name'],
             'last_name' => $fields['last_name'],
-//            'full_name' => $fields['last_name']  . " " . $fields['first_name'],
+            'full_name' => $fields['last_name']  . " " . $fields['first_name'],
             'email' => $fields['email'],
-            'password' => $fields['password']
+            'password' => Hash::make($fields['password'])
         ]);
         $response = [
             [
@@ -96,7 +94,7 @@ class AuthRepository
             [
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
-//                'full_name' => $user->full_name,
+               'full_name' => $user->full_name,
                 'email' => $user->email,
                 'password' => $user->password,
                 'id'=>$user->id,
@@ -105,5 +103,7 @@ class AuthRepository
             ]
         ];
         return response($response, 201);
+
+       
     }
 }

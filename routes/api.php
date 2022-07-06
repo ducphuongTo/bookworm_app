@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->group(function(){
 });
 
 Route::post('login',[AuthController::class,'login']);
-
+Route::post('register',[AuthController::class,'register']);
 
 Route::prefix('books')->group(function () {
     Route::get('/allSale',[BookController::class,'index']);
