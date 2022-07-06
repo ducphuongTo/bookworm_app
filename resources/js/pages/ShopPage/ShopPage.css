@@ -32,8 +32,9 @@ hr{
           font-size: 15px;
           letter-spacing: 1.42px;
           position: relative;
-          color: #813AFE;
+          background: #377bc2;
           font-weight: bold;
+          border-radius: 10px;
 }
 
 .accordion-item{
@@ -42,4 +43,7 @@ hr{
 .card-author{
           font-weight: bold;
           font-size: large;
+}
+.btn-primary{
+          background-color: #377bc2;
 }
