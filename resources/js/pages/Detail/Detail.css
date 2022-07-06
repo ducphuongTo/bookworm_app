@@ -28,3 +28,51 @@
 .btn_page{
           margin-right: 40px;
 }
+.quantity-picker{
+          width: 100%;
+          padding-left: 43px;
+}
+.addToCart{
+          margin-top: 50px;
+}
+.btn-add{
+          width: 100%;
+}
+.qty{
+          margin-left: 45px;
+          font-size: larger;
+}
+.form-label
+{
+          margin-left: 20px;
+          font-weight: bold;
+}
+.form-heading{
+          font-size: x-large;
+          font-weight: bold;
+          margin-left: 20px;
+          margin-top: 15px;
+}
+.btn-submit{
+          margin-bottom: 10px;
+          width: 80%;
+          margin-left: 35px;
+}
+.btn-add{
+          background: #377bc2;
+}
+.btn_page{
+          margin-left: 20px;
+}
+.show_review{
+          margin-top: 15px;
+          margin-left: 15px;
+
+}
+.card-head{
+          margin-left: 15px;
+}
+.bg-quantity{
+          width: 100%;
+
+}
