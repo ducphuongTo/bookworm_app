@@ -41,6 +41,8 @@ span{
     box-shadow: rgb(0 0 0 / 69%) 0px 26px 30px -10px,
         rgb(0 0 0 / 73%) 0px 16px 10px -10px;
     transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+    color: black;
+    
     
 }
 
@@ -66,3 +68,17 @@ span{
     /* background: #377bc2; */
 }
        
+.card-author{
+    padding-left: 0%;
+    margin-top: 0%;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    display: -webkit-box;
+}
+.card-title{
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    display: -webkit-box;
+}
