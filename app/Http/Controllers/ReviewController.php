@@ -40,7 +40,7 @@ class ReviewController extends Controller
         $reviews = $this->reviewRepository->create($request);
         return response()->json([
             'success' => true,
-            'message' => 'Review Stored',
+            'message' => 'Review stored successfully',
             'data'    => $reviews,
         ]);
     }

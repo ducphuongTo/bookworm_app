@@ -42,7 +42,7 @@ class ReviewRepository
         $reviews->review_title = $request->review_title;
         $reviews->review_details = $request->review_details;
         $reviews->rating_start = $request->rating_start;
-        $reviews->review_date = Carbon::now();
+        $reviews->review_date = Carbon::now()->toDateTimeString();
         $reviews->save();
 
         return $reviews;
