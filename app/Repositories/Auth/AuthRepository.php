@@ -32,7 +32,8 @@ class AuthRepository
 
         if($validator->fails()){
             return response()->json([
-                'validation_errors'=> $validator->messages()
+                'validation_errors'=> $validator->messages(),
+                "status" => 401
             ]);
         }
         else{
@@ -43,7 +44,7 @@ class AuthRepository
                 return response()->json([
                     'status'=> 401,
                     'message'=>'Invalid credentials'
-                ],401);
+                ]);
             }
             else{
 
