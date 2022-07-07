@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
@@ -60,3 +61,5 @@ Route::prefix('authors')->group(function(){
 Route::prefix('categories')->group(function (){
     Route::get('/shopPage',[CategoryController::class,'getAllCategories']);
 });
+
+Route::post("/orders", [OrderController::class, "store"]);
