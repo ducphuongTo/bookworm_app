@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Col, Row, Form, Button } from 'react-bootstrap'
+import { Container, Col, Row, Form, Button, Modal } from 'react-bootstrap'
 import styled from 'styled-components';
 import "./Login.css"
 import {MdClose} from 'react-icons/md'
@@ -34,25 +34,26 @@ export const Login = () => {
     .then(res=>{
       if(res.data.status === 200)
       {   
-          
           localStorage.setItem('auth_token',res.data.token)
           localStorage.setItem('auth_data',JSON.stringify(res.data.data)) 
-          
           swal("Success",res.data.message,"success")
-         
+          setTimeout(()=>{
+            location.reload()
+          },1000)
       }
       else if(res.data.status === 401){
-        swal("Warning",res.data.message,"warning")
+        swal("Error",res.data.message,"error")
       }
       else{
         setStateLogin({...stateLogin, error_list: res.data.validation_errors })
+        swal("Warning",error_list,"warning")
       }
     })
   }
   return (
     <>
-            <ModalWrapper >     
-              <Container>
+            <ModalWrapper  >     
+              <Container closeButton>
                   <Row>
                     <Col className='text-center login-form'>
                       <img className='icon-svg' src={"http://localhost:8000/images/bookcover/user.svg"}/>
@@ -77,6 +78,7 @@ export const Login = () => {
                   </Row>
               </Container>
             </ModalWrapper>
+            
 
     </>
   )

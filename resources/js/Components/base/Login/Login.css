@@ -9,9 +9,11 @@
           background-color: #813AFE;
           border-color:#813AFE ;
 }
-/* .container{
-          margin-left: 320px;
-} */
+
+.modal{
+  width: 500px;
+  height: 400px;
+}
 .modal {
           font-size: 12px;
         }
@@ -30,7 +32,7 @@
           margin: auto;
         }
         .modal > .actions {
-          width: 100%;
+         
           padding: 10px 5px;
           text-align: center;
         }
@@ -47,4 +49,6 @@
           border-radius: 18px;
           border: 1px solid #cfcece;
         }
-        
+    .login-form{
+      margin-top: 40px;
+    }

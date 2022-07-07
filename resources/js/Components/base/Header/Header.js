@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, } from "react-router-dom";
 import styled from "styled-components";
 import "./header.css"
 import Popup from "reactjs-popup";
 import { Login } from "../Login/Login";
 import axios from "axios";
+import {Dropdown} from "react-bootstrap"
 
 function Header() {
 
@@ -20,11 +21,53 @@ function Header() {
                 localStorage.removeItem('auth_data') 
                 swal("Success",res.data.message,"success")
                 localStorage.clear()
+                setTimeout(()=>{
+            
+                    location.reload()
+                  },1000)
             }
             
         })
     }
     
+    let username = JSON.parse(localStorage.getItem('auth_data'))
+   
+    console.log(username)
+    
+    var AuthButton = ''
+    if(!localStorage.getItem('auth_token'))
+    {
+        AuthButton = (
+            <div>
+                <Popup modal trigger={<button className="btn-login">Log in</button>}>
+                    {close => <Login close={close}/>}
+                </Popup>
+            </div>
+            
+        )
+       
+    }
+    else{
+        AuthButton = (
+            
+            <div>
+                <Dropdown>
+                    <Dropdown.Toggle className="username" id="dropdown-basic">
+                            {username.full_name}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                        <Dropdown.Item >  
+                        <button className="nav-link btn btn-danger btn-sm" onClick={logoutSubmit} type="button">Logout</button>
+                        </Dropdown.Item>
+                       
+                    </Dropdown.Menu>
+                </Dropdown>
+                
+                
+            </div>
+        )
+    }
     return (
         <Nav>
             <NavLink to="/">
@@ -63,11 +106,8 @@ function Header() {
                 >
                     Cart(0)
                 </NavLink> 
-            
-                <Popup modal trigger={<button className="btn-login">Log in</button>}>
-                    {close => <Login close={close}/>}
-                 </Popup>
-                 <button className="nav-link btn btn-danger btn-sm" onClick={logoutSubmit} type="button">Logout</button>
+
+                {AuthButton}
             </NavMenu>
         </Nav>
     );
@@ -76,12 +116,12 @@ function Header() {
 export default Header;
 
 const Nav = styled.nav`
-    height: 70px;
+    height: 80px;
     background-color: #090b13;
     display: flex;
     align-items: center;
     padding: 0 36px;
-    overflow-x: hidden;
+    
 `;
 
 const Logo = styled.img`

@@ -12,3 +12,8 @@ border-radius: 5px;
           border-radius: 5px;
           color: white;
 }
+.username{
+          color: white;
+          background-color: #377bc2 ;
+          border-color: none;
+}
