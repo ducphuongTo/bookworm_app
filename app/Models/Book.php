@@ -5,6 +5,7 @@ namespace App\Models;
 use http\Env\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Book extends Model
 {
@@ -24,6 +25,10 @@ class Book extends Model
     }
     function discount(){
         return $this->hasOne(Discount::class);
+    }
+    function orderItem()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 
 
@@ -53,6 +58,7 @@ class Book extends Model
                 'discount.discount_price',
                 'book.book_cover_photo',
                 'category.category_name',
+
                 'author.author_name')
             ->selectRaw('(CASE WHEN discount.discount_price is null
                               THEN book.book_price
@@ -88,20 +94,26 @@ class Book extends Model
         return Book::join('category', 'book.category_id', '=', 'category.id')
             ->join('discount', 'discount.book_id', '=', 'book.id' )
             ->join('author', 'author.id', '=', 'book.author_id')
-        //    ->join('review', 'review.book_id', '=', 'book.id')
+            ->join('review', 'review.book_id', '=', 'book.id')
+//             ->with('review')
+//            ->withCount('review')
             ->select('book.*',
                 'category.category_name',
                 'author.author_name',
                 'discount.discount_price',
-               
-                )
+
+            )
             ->selectRaw('(CASE WHEN discount.discount_price is null
                         THEN book.book_price
                         ELSE discount.discount_price END)
                         AS final_price,
-                         book.book_price - discount.discount_price as sub_price
-                        ');
-            
+                         book.book_price - discount.discount_price as sub_price,
+                         count(review.book_id) as total_review,
+                         avg(review.rating_start) as rating_start
+
+                        ')
+            ->groupBy('book.id','category.category_name','author.author_name','discount.discount_price','sub_price');
+
     }
 
     public function scopeSort($query, $request)
@@ -111,17 +123,17 @@ class Book extends Model
                 $sortBy = $key;
                 $sortValue = $value;
             }
-            if ($sortBy == "sub_price") {
+            if ($sortBy == "onSale") {
 
                 $query->orderBy($sortBy, $sortValue);
             }
+            if ($sortBy == "popularity") {
 
+                $query->orderBy($sortBy, $sortValue);
+            }
             if ($sortBy == "final_price") {
                 $query->orderBy($sortBy, $sortValue);
             }
-
-
-
         }
         return $query;
     }
@@ -135,9 +147,9 @@ class Book extends Model
             $categoryList = explode(",", $request->query("filter")["author_name"]);
             $query->where("author_name",'=', $categoryList);
         }
-        if ($request->has("filter.review_avg_rating_start")) {
-            $categoryList = explode(",", $request->query("filter")["review_avg_rating_start"]);
-            $query->where("review_avg_rating_start",'>=', $categoryList);
+        if ($request->has("filter.rating_start")) {
+            $categoryList = explode(",", $request->query("filter")["rating_start"]);
+            $query->where("rating_start",'>=', $categoryList);
         }
         return $query;
     }

@@ -37,6 +37,7 @@ class BookRepository
     //get on sale books
     public function getOnSaleBooks(){
         $booksOnSale = Book::OnSale()
+
                     ->limit(10)
                     ->get();
         return response()->json([
@@ -94,17 +95,70 @@ class BookRepository
             "data" => $book
        ],200);
     }
-    
+
+
     public function getByCondition(Request $request){
-        $size = $request->query("paginate");
-       $books = Book::FeaturedBooks()
-           ->sort($request)
-           ->filter($request)
-           ->paginate($size);
-        return response()->json([
-            "message" => "Get  book successfully",
-            "data" => $books
-        ],200);
+
+        if(isset($request['onSale']))
+        {
+            $size = $request->query("paginate");
+            $books = Book::FeaturedBooks()
+                ->orderBy('sub_price','desc')
+                ->orderBy('final_price')
+                ->sort($request)
+                ->filter($request)
+                ->paginate($size);
+
+            return response()->json([
+                "message" => "Get  book successfully",
+                "data" => $books
+            ],200);
+        }
+
+        if(isset($request['popularity']))
+        {
+            $size = $request->query("paginate");
+            $books = Book::FeaturedBooks()
+                ->orderBy("total_review", 'desc')
+                ->orderBy("final_price")
+                ->sort($request)
+                ->filter($request)
+                ->paginate($size);
+
+            return response()->json([
+                "message" => "Get  book successfully",
+                "data" => $books
+            ],200);
+        }
+        if(isset($request['finalPriceByDesc']))
+        {
+            $size = $request->query("paginate");
+            $books = Book::FeaturedBooks()
+                ->orderBy("final_price",'desc')
+                ->sort($request)
+                ->filter($request)
+                ->paginate($size);
+
+            return response()->json([
+                "message" => "Get  book successfully",
+                "data" => $books
+            ],200);
+        }
+        if(isset($request['finalPriceByAsc']))
+        {
+            $size = $request->query("paginate");
+            $books = Book::FeaturedBooks()
+                ->orderBy("final_price",'asc')
+                ->sort($request)
+                ->filter($request)
+                ->paginate($size);
+
+            return response()->json([
+                "message" => "Get  book successfully",
+                "data" => $books
+            ],200);
+        }
+
     }
 
 
