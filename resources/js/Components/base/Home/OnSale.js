@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { Row, Button, Col, Card, Container } from "react-bootstrap";
+import "swiper/css/navigation";
+import { Row, Button, Col, Card, Container, Pagination } from "react-bootstrap";
 import { VscTriangleRight } from "react-icons/vsc";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import "./home.css"
+import { A11y, Navigation, Scrollbar } from "swiper";
 function OnSale() {
 
     const [book, setBook] = useState([]);
@@ -37,13 +39,14 @@ function OnSale() {
                 </Col>
                 <Col className="d-flex justify-content-end">
                     <Button className="font-weight-semi" variant="primary">
-                        <Link to ="/shop" style={{textDecoration: 'none'}} >View All <VscTriangleRight className="icon_triangle" /></Link>
+                        <Link to ="/shop" style={{textDecoration: 'none'}} className='btn-view' >View All <VscTriangleRight className="icon_triangle" /></Link>
                     </Button>
                 </Col>
             </Row>
 
             <Swiper
-                navigation={false}
+                modules={[Navigation,Scrollbar,A11y]}
+                navigation={true}
                 loop={true}
                 autoplay={{
                     delay: 500000,
@@ -55,28 +58,28 @@ function OnSale() {
                 <Container>
                     <Row>
                         {book!== null &&
-                    book.map((item,id) => {
+                    book.map((item) => {
                         return (
-                            <Link key={id} to={`books/${item.book_id}`} className="card_list">
                                 <SwiperSlide>
-                                           
-                                                    <Col >
-                                                        <Card>
-                                                            <Card.Img src={"http://localhost:8000/images/bookcover/" + item.book_cover_photo + ".jpg"} />
-                                                            <Card.Body className="card-slider">
-                                                                <Card.Title>{item.book_title}</Card.Title>
-                                                                <Card.Text className="card-author">
-                                                                    {item.author_name}
-                                                                </Card.Text>
-                                                            </Card.Body>
-                                                            <Card.Footer>
-                                                                <del><span>${item.book_price}</span></del> ${item.discount_price}
-                                                            </Card.Footer>
-                                                        </Card>
-                                                    </Col>
-                                             
+                                    <Row key={item.id}>
+                                    <Link to={`books/${item.id}`} style={{textDecoration: 'none'}} className="card_list">
+                                        <Col >
+                                                <Card className="card-home">
+                                                    <Card.Img src={"http://localhost:8000/images/bookcover/" + item.book_cover_photo + ".jpg"} />
+                                                    <Card.Body className="card-slider">
+                                                        <Card.Title>{item.book_title}</Card.Title>
+                                                        <Card.Text className="card-author">
+                                                            {item.author_name}
+                                                        </Card.Text>
+                                                    </Card.Body>
+                                                    <Card.Footer>
+                                                        <del><span>${item.book_price}</span></del> <strong>${item.discount_price}</strong>
+                                                    </Card.Footer>
+                                                </Card>
+                                            </Col>
+                                        </Link>
+                                    </Row>    
                                 </SwiperSlide>
-                            </Link>
                         );
                     })}
                     </Row>

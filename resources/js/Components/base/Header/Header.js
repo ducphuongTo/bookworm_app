@@ -1,111 +1,122 @@
-import { useState } from "react";
-import { Link, NavLink, } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
-import "./header.css"
+import "./header.css";
 import Popup from "reactjs-popup";
 import { Login } from "../Login/Login";
 import axios from "axios";
-import {Dropdown} from "react-bootstrap"
+import { Dropdown } from "react-bootstrap";
 
 function Header() {
+    let totalQty = JSON.parse(localStorage.getItem("total_cart"));
 
+    useEffect(() => {
+        function handleChangeStorage() {
+            console.log("run");
+        }
+        window.addEventListener("storage", handleChangeStorage);
+        return () => window.removeEventListener("storage", handleChangeStorage);
+    }, []);
 
-    const logoutSubmit = (e)=>{
-        e.preventDefault()
+    const logoutSubmit = (e) => {
+        e.preventDefault();
 
-        axios.post("http://127.0.0.1:8000/api/users/logout")
-        .then(res=>{
-            if(res.data.status === 200)
-            {
-                localStorage.removeItem('auth_token')
-                localStorage.removeItem('auth_data') 
-                swal("Success",res.data.message,"success")
-                localStorage.clear()
-                setTimeout(()=>{
-            
-                    location.reload()
-                  },1000)
+        axios.post("http://127.0.0.1:8000/api/users/logout").then((res) => {
+            if (res.data.status === 200) {
+                localStorage.removeItem("auth_token");
+                localStorage.removeItem("auth_data");
+                swal("Success", res.data.message, "success");
+                localStorage.clear();
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
             }
-            
-        })
-    }
-    
-    let username = JSON.parse(localStorage.getItem('auth_data'))
-   
-    console.log(username)
-    
-    var AuthButton = ''
-    if(!localStorage.getItem('auth_token'))
-    {
+        });
+    };
+
+    let username = JSON.parse(localStorage.getItem("auth_data"));
+
+    console.log(username);
+
+    var AuthButton = "";
+    if (!localStorage.getItem("auth_token")) {
         AuthButton = (
             <div>
-                <Popup modal trigger={<button className="btn-login">Log in</button>}>
-                    {close => <Login close={close}/>}
+                <Popup
+                    modal
+                    trigger={<button className="btn-login">Log in</button>}
+                >
+                    {(close) => <Login close={close} />}
                 </Popup>
             </div>
-            
-        )
-       
-    }
-    else{
+        );
+    } else {
         AuthButton = (
-            
             <div>
                 <Dropdown>
                     <Dropdown.Toggle className="username" id="dropdown-basic">
-                            {username.full_name}
+                        {username.full_name}
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                        <Dropdown.Item >  
-                        <button className="nav-link btn btn-danger btn-sm" onClick={logoutSubmit} type="button">Logout</button>
+                        <Dropdown.Item>
+                            <button
+                                className="nav-link btn btn-danger btn-sm"
+                                onClick={logoutSubmit}
+                                type="button"
+                            >
+                                Logout
+                            </button>
                         </Dropdown.Item>
-                       
                     </Dropdown.Menu>
                 </Dropdown>
-                
-                
             </div>
-        )
+        );
     }
     return (
         <Nav>
             <NavLink to="/">
                 {" "}
-                <Logo src="http://localhost:8000/images/bookcover/BOOKWORM-logo.png" />{" "}
+                <Logo src="http://localhost:8000/images/bookcover/BOOKWORM_Header.png" />{" "}
             </NavLink>
             <NavMenu>
-                <NavLink to="/" style={{ textDecoration: "none", color: "white" }}
-                                className={({ isActive }) => 
-                                (isActive ? "link-active" : "link")}
+                <NavLink
+                    to="/"
+                    style={{ textDecoration: "none", color: "white" }}
+                    className={({ isActive }) =>
+                        isActive ? "link-active" : "link"
+                    }
                 >
                     Home
                 </NavLink>
                 <NavLink
                     to="/shop"
                     style={{ textDecoration: "none", color: "white" }}
-                    className={({ isActive }) => 
-                      (isActive ? "link-active" : "link")}
+                    className={({ isActive }) =>
+                        isActive ? "link-active" : "link"
+                    }
                 >
                     Shop
                 </NavLink>
                 <NavLink
                     to="/about"
                     style={{ textDecoration: "none", color: "white" }}
-                    className={({ isActive }) => 
-                      (isActive ? "link-active" : "link")}
+                    className={({ isActive }) =>
+                        isActive ? "link-active" : "link"
+                    }
                 >
                     About
                 </NavLink>
-                
+
                 <NavLink
                     to="/cart"
                     style={{ textDecoration: "none", color: "white" }}
-                    className={({ isActive }) => 
-                      (isActive ? "link-active" : "link")}
+                    className={({ isActive }) =>
+                        isActive ? "link-active" : "link"
+                    }
                 >
-                    Cart(0)
-                </NavLink> 
+                    Cart({JSON.parse(localStorage.getItem("total_cart"))})
+                </NavLink>
 
                 {AuthButton}
             </NavMenu>
@@ -121,7 +132,6 @@ const Nav = styled.nav`
     display: flex;
     align-items: center;
     padding: 0 36px;
-    
 `;
 
 const Logo = styled.img`

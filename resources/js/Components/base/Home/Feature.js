@@ -55,7 +55,7 @@ function Feature() {
         <div className="feature_books">
             <Row className="align-items-center">
                 <Col xs={12}>
-                    <h4 className="font-weight-semi align-items-center">
+                    <h4 className="font-weight-semi align-items-center" style={{marginRight:"50px"}}>
                         FEATURED BOOKS
                     </h4>
                 </Col>
@@ -65,7 +65,6 @@ function Feature() {
                     <Button
                         className="font-weight-semi"
                         onClick={btnRecommend}
-                        
                         variant={isRecommend ? "primary" : ""}
                     >
                         Recommend &nbsp;
@@ -90,26 +89,26 @@ function Feature() {
                                     return (
                                         <div className="col-md-3" key={item.id}>
                                             <Link  to={`books/${item.id}`} style={{ textDecoration: 'none' }}>
-                                            <Col  key={item.id}>
-                                                <Card>
-                                                    <Card.Img src={"http://127.0.0.1:8000/images/bookcover/" + item.book_cover_photo + ".jpg"} />
-                                                    <Card.Body>
-                                                        <Card.Title>
-                                                            {item.book_title}
-                                                        </Card.Title>
-                                                        <Card.Text className="card-author">
-                                                            {item.author_name}
-                                                        </Card.Text>
-                                                    </Card.Body>
-                                                    <Card.Footer>
-                                                        <del>
-                                                            <span>${item.book_price}</span>
-                                                        </del>
-                                                        ${item.final_price}
-                                                    </Card.Footer>
-                                                </Card>
-                                            </Col>
-                                        </Link>
+                                                <Col  key={item.id}>
+                                                    <Card className="card-home">
+                                                        <Card.Img src={"http://127.0.0.1:8000/images/bookcover/" + item.book_cover_photo + ".jpg"} />
+                                                        <Card.Body>
+                                                            <Card.Title>
+                                                                {item.book_title}
+                                                            </Card.Title>
+                                                            <Card.Text className="card-author">
+                                                                {item.author_name}
+                                                            </Card.Text>
+                                                        </Card.Body>
+                                                        <Card.Footer>
+                                                            <del>
+                                                                <span>${item.book_price}</span>
+                                                            </del>
+                                                            <strong>${item.final_price}</strong>
+                                                        </Card.Footer>
+                                                    </Card>
+                                                </Col>
+                                            </Link>
                                         </div>
                                     );
                                 })}
@@ -126,7 +125,7 @@ function Feature() {
                                    <div className="col-md-3" key={item.id}>
                                          <Link to={`books/${item.id}`} style={{ textDecoration: 'none' }}>
                                             <Col >
-                                                <Card>
+                                                <Card className="card-home">
                                                     <Card.Img src={"http://localhost:8000/images/bookcover/" + item.book_cover_photo + ".jpg"} />
                                                     <Card.Body>
                                                         <Card.Title>
@@ -139,7 +138,7 @@ function Feature() {
                                                     <Card.Footer>
                                                         <del>
                                                             <span>${item.book_price}</span>
-                                                        </del> ${item.final_price}
+                                                        </del> <strong>${item.final_price}</strong>
 
                                                     </Card.Footer>
                                                 </Card>
