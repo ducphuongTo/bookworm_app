@@ -56,6 +56,11 @@ function Detail() {
         
         if (localStorage.getItem("cart")) {
             cart = JSON.parse(localStorage.getItem("cart"));
+            swal(
+                "Add to cart successfully",
+                "",
+                "success"
+            );
         }
         if (localStorage.getItem("total_cart")) {
             total_cart = JSON.parse(localStorage.getItem("total_cart"));
