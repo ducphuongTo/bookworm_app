@@ -4,8 +4,7 @@ import Table from "react-bootstrap/Table";
 import "./Cart.css";
 import Axios from "axios";
 import axios from "axios";
-import { reduce } from "lodash";
-import { Link } from "react-router-dom";
+import { Link,Redirect } from "react-router-dom";
 import swal from "sweetalert";
 
 function Cart() {
@@ -115,11 +114,18 @@ function Cart() {
             );
             
             if(data.data.status == 200){
+                
+                
                 swal(
                     "Order successfully",
                     data.data.message,
                     "success"
                 );
+                setTimeout(() => {
+                    window.location.href = "/"
+                    localStorage.removeItem("cart")
+                    localStorage.removeItem("totalCartPrice")
+                }, 10000);
             }
         }
         
