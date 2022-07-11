@@ -95,13 +95,10 @@ class Book extends Model
             ->join('discount', 'discount.book_id', '=', 'book.id' )
             ->join('author', 'author.id', '=', 'book.author_id')
             ->join('review', 'review.book_id', '=', 'book.id')
-//             ->with('review')
-//            ->withCount('review')
             ->select('book.*',
                 'category.category_name',
                 'author.author_name',
                 'discount.discount_price',
-
             )
             ->selectRaw('(CASE WHEN discount.discount_price is null
                         THEN book.book_price
@@ -110,7 +107,6 @@ class Book extends Model
                          book.book_price - discount.discount_price as sub_price,
                          count(review.book_id) as total_review,
                          avg(review.rating_start) as rating_start
-
                         ')
             ->groupBy('book.id','category.category_name','author.author_name','discount.discount_price','sub_price');
 

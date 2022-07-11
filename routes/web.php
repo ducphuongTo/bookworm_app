@@ -22,12 +22,15 @@ Route::get('/books/{id}', function () {
 Route::get('/shop', function () {
     return view('welcome');
 });
+Route::get('/shop/books/{id}', function () {
+    return view('welcome');
+});
 Route::get('/about', function () {
     return view('welcome');
 });
 Route::get('/cart', function () {
     return view('welcome');
 });
-// Route::get('/login', function () {
-//     return view('welcome');
-// });
+Route::get('/cart/books/{id}', function () {
+    return view('welcome');
+});

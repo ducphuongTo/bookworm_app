@@ -15,6 +15,9 @@ class User extends Authenticatable
     public $timestamps = false;
     protected $table = 'user';
 
+    public function order(){
+        return $this-> hasMany(Order::class);
+    }
     /**
      * The attributes that are mass assignable.
      *
@@ -37,7 +40,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-       
+
     ];
 
     /**
@@ -54,5 +57,5 @@ class User extends Authenticatable
             "full_name"] = "$this->last_name $this->first_name";
     }
 
-    
+
 }
