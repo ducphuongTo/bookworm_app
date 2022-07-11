@@ -1,7 +1,40 @@
 .table-bordered td, .table-bordered th{
           border: none;
+          border-top: 1px solid;
+          border-bottom: 1px solid;
+         
+
 }
 .btn-order{
           width: 80%;
           background-color: #377bc2;
 }
+.img-cart{
+         width: 50%;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          display: -webkit-box;
+}
+
+.col-md-6{
+          padding: 0%;
+}
+th{
+          background-color: #377bc2;
+}
+.footer{
+          margin-top: auto;
+}
+.title-cart{
+          width: 50%;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          display: -webkit-box;
+}
+.cart_container{
+          min-height:712px !important;
+}
+
+

@@ -1,6 +1,7 @@
 .book-detail{
           flex-direction: inherit;
           border: 1px solid #cccccc;
+          
 }
 .book-price{
           flex-direction: column;
@@ -39,7 +40,7 @@
           width: 100%;
 }
 .qty{
-          margin-left: 45px;
+        
           font-size: larger;
 }
 .form-label
@@ -74,5 +75,26 @@
 }
 .bg-quantity{
           width: 100%;
-
+}
+.card-img{
+          width: 50%;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          display: -webkit-box;
+}
+.text-detail{
+          margin-top: 10px;
+          margin-left: 70px;
+}
+.item_qty{
+          color: black;
+}
+.btn_qty{
+          background-color: #377bc2;
+}
+.control_qty{
+          display: flex;
+          justify-content: space-between;
+          align-items: center; 
 }
