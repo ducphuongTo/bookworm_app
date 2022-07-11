@@ -13,76 +13,9 @@ function ShopPage() {
     const [state, setState] = useState({
         book: [],
     });
-
-    const [statePage, setStatePage] = useState({
-        from: 1,
-        to: 1,
-        activePage: 1,
-        itemsCountPerPage: 0,
-        totalItemsCount: 0,
-    });
     const [category, setCategory] = useState([]);
     const [author, setAuthor] = useState([]);
     const [rating, setRating] = useState([]);
-
-    const [filter, setFilter] = useState({
-        filterAuthor: null,
-        filterCategory: null,
-        filterRatingStar: null,
-    });
-
-    const checkCurrentState = () => {
-        let sort;
-        let category;
-        let author;
-        let ratingStart;
-
-        if (current_category) {
-            sort = current_category;
-        }
-        return {
-            sort,
-        };
-    };
-
-    const sort = () => {
-        const { category } = checkCurrentState();
-        const array = [];
-        if (category) {
-        }
-    };
-
-    const handleClick = async (e) => {
-        let url = "http://127.0.0.1:8000/api/book/condition";
-        let arr = [];
-        // setFilter({ filterCategory: item.category_name })
-        // setFilter({filterAuthor: item.author_name})
-        // setFilter({filterRatingStar: item.rating_start})
-
-        arr.push(`${e}`);
-
-        for (let i = 0; i < arr.length; i++) {
-            if (i === 0) {
-                url += "?" + arr[i];
-            } else {
-                url += "&" + arr[i];
-            }
-        }
-        axios.get(url).then((res) => {
-            const data = res.data;
-            setState({ book: data.data.data });
-        });
-    };
-
-    const allSaleBook = async () => {
-        const saleBooks = await Axios.get(
-            "http://127.0.0.1:8000/api/books/allSale"
-        );
-        setState({
-            book: saleBooks.data.data.original.data,
-        });
-    };
-
     const getCategoryData = () => {
         axios
             .get("http://127.0.0.1:8000/api/categories/shopPage")
@@ -101,7 +34,6 @@ function ShopPage() {
                 setAuthor(result);
             });
     };
-
     const getRatingData = () => {
         axios
             .get("http://127.0.0.1:8000/api/rating-start/shopPage")
@@ -268,6 +200,7 @@ function ShopPage() {
                 <hr className="mt-10 mb-5"></hr>
                 <div className="row">
                     <div className="col-md-2">
+                        
                         <h2>Filter By</h2>
                         <div className="accordion mt-4" id="accordionExample">
                             <div className=" accordion-item rounded-3 border border-1 border-dark category">
@@ -464,10 +397,11 @@ function ShopPage() {
                                                     to={`books/${item.id}`}
                                                     style={{
                                                         textDecoration: "none",
+                                                        
                                                     }}
                                                 >
                                                     <Col>
-                                                        <Card>
+                                                        <Card className="card-shop">
                                                             <Card.Img
                                                                 src={
                                                                     "http://localhost:8000/images/bookcover/" +
@@ -511,8 +445,7 @@ function ShopPage() {
                                         );
                                     })}
                             </Row>
-                        </Container>
-                        {total_page > 1 && (
+                            {total_page > 1 && (
                         <div className="d-flex justify-content-center mt-5">
                             <Pagination
                                 activePage={current_page}
@@ -525,6 +458,8 @@ function ShopPage() {
                             />
                         </div>
                     )}
+                        </Container>
+                        
                     </div>
                 </div>
             </div>
