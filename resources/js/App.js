@@ -9,6 +9,7 @@ import "../css/app.css";
 import { Login } from "./Components/base/Login/Login";
 import { useState } from "react";
 import axios from "axios";
+import Footer from "./Components/base/Footer/Footer";
 
 
 axios.interceptors.request.use(function (config){
@@ -26,10 +27,13 @@ function App() {
                 <Route path="/" element={<Home />}></Route>
                 <Route path="/books/:id" element={<Detail />}></Route>
                 <Route path="/shop" element={<ShopPage />}></Route>
+                <Route path="shop/books/:id" element={<Detail />}></Route>
                 <Route path="/about" element={<About />}></Route>
-                <Route path="/cart" element={<Cart cartItems={cartItems} />}></Route>
+                <Route path="/cart" element={<Cart/>}></Route>
+                <Route path="/cart/books/:id" element={<Detail />}></Route>
                 {/* <Route path="/login" element={<Login/>}></Route> */}
             </Routes>
+            <Footer/>
         </div>
     );
 }
