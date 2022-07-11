@@ -30,6 +30,7 @@ function Cart() {
     const user_token = JSON.parse(
         JSON.stringify(localStorage.getItem("auth_token"))
     );
+    
     const [stateQty, setStateQty] = useState(1);
 
     const handleIncreaseQuantity = (id, idx) => {
@@ -79,35 +80,50 @@ function Cart() {
     };
 
     const placeOrder = async () => {
-        const book_order = [];
-
-        book.forEach((item, index) => {
-            book_order.push({
-                book_id: item.id,
-                quantity: item.quantity,
-                price: item.final_price,
-            });
-        });
-
-        const data = await Axios.post(
-            "http://127.0.0.1:8000/api/orders",
-            {
-                user_id: getUserData.id,
-                order_amount: totalCartPrice,
-                cart: book_order,
-            },
-            {
-                headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Content-type": "Application/json",
-                    Authorization: `Bearer ${user_token}`,
-                },
-            }
-        );
-
-        if (getUserData.id == null) {
-            swal("Log in before making purchase", "", "error");
+        if(getUserData == null)
+        {
+            swal(
+                     "Login before placing order",
+                        "Login before placing order",
+                        "error"
+                );
         }
+        else{
+            const book_order = [];
+            book.forEach((item, index) => {
+                book_order.push({
+                    book_id: item.id,
+                    quantity: item.quantity,
+                    price: item.final_price * item.quantity,
+                });
+            });
+
+            const data = await Axios.post(
+                "http://127.0.0.1:8000/api/orders",
+                {
+                    user_id: getUserData.id,
+                    order_amount: totalCartPrice,
+                    cart: book_order,
+                },
+                {
+                    headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Content-type": "Application/json",
+                        Authorization: `Bearer ${user_token}`,
+                    },
+                }
+            );
+            
+            if(data.data.status == 200){
+                swal(
+                    "Order successfully",
+                    data.data.message,
+                    "success"
+                );
+            }
+        }
+        
+       
     };
 
     return (
