@@ -374,14 +374,14 @@ function ShopPage() {
                                     <Dropdown.Item eventKey="paginate=5">
                                         Show 5
                                     </Dropdown.Item>
-                                    <Dropdown.Item eventKey="paginate=10">
-                                        Show 10
-                                    </Dropdown.Item>
                                     <Dropdown.Item eventKey="paginate=15">
                                         Show 15
                                     </Dropdown.Item>
                                     <Dropdown.Item eventKey="paginate=20">
                                         Show 20
+                                    </Dropdown.Item>
+                                    <Dropdown.Item eventKey="paginate=25">
+                                        Show 25
                                     </Dropdown.Item>
                                 </DropdownButton>
                             </div>
